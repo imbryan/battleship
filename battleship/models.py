@@ -32,19 +32,29 @@ class Coordinate:
     column: int
 
     def __init__(self, row: int, column: int):
-        pass
+        self.row = row
+        self.column = column
 
     def __str__(self) -> str:
-        pass
+        """String representation of the Coordinate."""
+        # Convert row number to letter (0 -> 'A', 1 -> 'B', etc.)
+        row_char = chr(self.row + ord('A'))
+        return f"{row_char}{self.column}"
 
     def __eq__(self, other: 'Coordinate') -> bool:
-        pass
+        """Check equality between two Coordinate instances."""
+        if not isinstance(other, Coordinate):
+            return False
+        return self.row == other.row and self.column == other.column
 
     def __hash__(self) -> int:
-        pass
+        """Generate a hash value for the Coordinate instance."""
+        return hash((self.row, self.column))
 
     def is_valid(self, board_size: int) -> bool:
-        pass
+        """Check if the coordinate is within the bounds of the board."""
+        return 0 <= self.row < board_size and 0 <= self.column < board_size
+        
 
 
 class Ship:
