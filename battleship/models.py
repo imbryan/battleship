@@ -39,7 +39,7 @@ class Coordinate:
         """String representation of the Coordinate."""
         # Convert row number to letter (0 -> 'A', 1 -> 'B', etc.)
         row_char = chr(self.row + ord('A'))
-        return f"{row_char}{self.column}"
+        return f"{row_char}{self.column + 1}"
 
     def __eq__(self, other: 'Coordinate') -> bool:
         """Check equality between two Coordinate instances."""
