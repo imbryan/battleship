@@ -57,21 +57,22 @@ class Coordinate:
 
 
 class Ship:
-    type: ShipType
+    ship_type: ShipType
     damage: int
 
     def __init__(self, ship_type: ShipType):
-        pass
+        self.ship_type = ship_type
+        self.damage = 0
 
     @property
     def size(self) -> int:
-        pass
+        return self.ship_type.value
 
     def register_hit(self):
-        pass
+        self.damage += 1
 
     def is_sunk(self) -> bool:
-        pass
+        return self.damage == self.size
 
 
 class Board:
