@@ -88,38 +88,30 @@ class Board:
         self.shots_received = {}
 
     def is_valid_placement(self, ship_size: int, start_coord: Coordinate, orientation: Orientation) -> bool:
-        if orientation == Orientation.HORIZONTAL:
-            end_column = start_coord.column + ship_size - 1
-            if end_column >= self.size:
-                return False
-            for col in range(start_coord.column, end_column + 1):
-                coord = Coordinate(start_coord.row, col)
-                if coord in self.ship_map:
-                    return False
+        if orientation == orientation.HORIZONTAL:
+            end_coord = Coordinate(start_coord.row, start_coord.column + ship_size - 1)
         else:  # VERTICAL
-            end_row = start_coord.row + ship_size - 1
-            if end_row >= self.size:
+            end_coord = Coordinate(start_coord.row + ship_size - 1, start_coord.column)
+        if end_coord.is_valid(self.size) is False:
+            return False
+        for i in range(ship_size):
+            if orientation == Orientation.HORIZONTAL:
+                coord = Coordinate(start_coord.row, start_coord.column + i)
+            else:  # VERTICAL
+                coord = Coordinate(start_coord.row + i, start_coord.column)
+            if coord in self.ship_map:
                 return False
-            for row in range(start_coord.row, end_row + 1):
-                coord = Coordinate(row, start_coord.column)
-                if coord in self.ship_map:
-                    return False
         return True
 
 
     def place_ship(self, ship: Ship, start_coord: Coordinate, orientation: Orientation):
-        if not self.is_valid_placement(ship.size, start_coord, orientation):
-            raise ValueError("Invalid ship placement.")
-        
-        if orientation == Orientation.HORIZONTAL:
-            for col in range(start_coord.column, start_coord.column + ship.size):
-                coord = Coordinate(start_coord.row, col)
+        for i in range(ship.size):
+            if orientation == Orientation.HORIZONTAL:
+                coord = Coordinate(start_coord.row, start_coord.column + i)
                 self.ship_map[coord] = ship
-        else:  # VERTICAL
-            for row in range(start_coord.row, start_coord.row + ship.size):
-                coord = Coordinate(row, start_coord.column)
+            else:  # VERTICAL
+                coord = Coordinate(start_coord.row + i, start_coord.column)
                 self.ship_map[coord] = ship
-        
         self.ships.append(ship)
 
     def get_status_at(self, coord: Coordinate) -> ShotStatus:
