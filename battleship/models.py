@@ -24,7 +24,6 @@ class ShotStatus(Enum):
     MISS = 'Miss'
     HIT = 'Hit'
     UNSHOT = 'Unshot'
-    SHIP_SEGMENT = 'Ship_Segment'
 
 
 class Coordinate:
