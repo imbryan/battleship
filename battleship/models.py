@@ -82,22 +82,65 @@ class Board:
     shots_received: Dict[Coordinate, ShotStatus]
 
     def __init__(self, size: int):
-        pass
+        self.size = size
+        self.ships = []
+        self.ship_map = {}
+        self.shots_received = {}
 
     def is_valid_placement(self, ship_size: int, start_coord: Coordinate, orientation: Orientation) -> bool:
-        pass
+        if orientation == Orientation.HORIZONTAL:
+            end_column = start_coord.column + ship_size - 1
+            if end_column >= self.size:
+                return False
+            for col in range(start_coord.column, end_column + 1):
+                coord = Coordinate(start_coord.row, col)
+                if coord in self.ship_map:
+                    return False
+        else:  # VERTICAL
+            end_row = start_coord.row + ship_size - 1
+            if end_row >= self.size:
+                return False
+            for row in range(start_coord.row, end_row + 1):
+                coord = Coordinate(row, start_coord.column)
+                if coord in self.ship_map:
+                    return False
+        return True
+
 
     def place_ship(self, ship: Ship, start_coord: Coordinate, orientation: Orientation):
-        pass
+        if not self.is_valid_placement(ship.size, start_coord, orientation):
+            raise ValueError("Invalid ship placement.")
+        
+        if orientation == Orientation.HORIZONTAL:
+            for col in range(start_coord.column, start_coord.column + ship.size):
+                coord = Coordinate(start_coord.row, col)
+                self.ship_map[coord] = ship
+        else:  # VERTICAL
+            for row in range(start_coord.row, start_coord.row + ship.size):
+                coord = Coordinate(row, start_coord.column)
+                self.ship_map[coord] = ship
+        
+        self.ships.append(ship)
 
     def get_status_at(self, coord: Coordinate) -> ShotStatus:
-        pass
+        if coord in self.shots_received:
+            return self.shots_received[coord]
+        return ShotStatus.UNSHOT
 
     def get_status_grid(self) -> Dict[Coordinate, ShotStatus]:
-        pass
+        return self.shots_received.copy()
 
     def receive_shot(self, coord: Coordinate) -> Tuple[ShotStatus, Optional[str]]:
-        pass
+        if coord in self.ship_map:
+            ship = self.ship_map[coord]
+            ship.register_hit()
+            self.shots_received[coord] = ShotStatus.HIT
+            if ship.is_sunk():
+                return ShotStatus.HIT, ship.ship_type.name
+            return ShotStatus.HIT, None
+        else:
+            self.shots_received[coord] = ShotStatus.MISS
+            return ShotStatus.MISS, None
 
     def all_ships_sunk(self) -> bool:
-        pass
+        return all(ship.is_sunk() for ship in self.ships)
