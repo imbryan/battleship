@@ -57,7 +57,7 @@ class Coordinate:
 
 
 class Ship:
-    name: ShipType
+    type: ShipType
     damage: int
 
     def __init__(self, ship_type: ShipType):
