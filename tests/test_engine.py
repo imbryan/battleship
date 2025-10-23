@@ -55,10 +55,9 @@ class BattleshipGameTestCase(TestCase):
             self.player_ai: [mem for mem in ShipType]
         }
         self.mock_ai_strategy.get_next_placement.return_value = (Coordinate.random(self.board_size), Orientation.random())
-        self.mock_ai_strategy.placement_tracker = {}
         self.engine.simulate_placement()
         self.assertEqual(len(self.engine.ships_to_place[self.player_ai]), 0, "AI should have placed all ships")
-        #self.assertEqual(len(self.engine.ai_strategy.placement_tracker), ShipType.total_size(), "AI should have tracked all its placements")
+        self.assertEqual(self.mock_ai_strategy.update_placement_tracker.call_count, len(ShipType), "AI should have tracked all its placements")
 
     def test_is_placement_complete(self):
         self.assertFalse(self.engine.is_placement_complete())

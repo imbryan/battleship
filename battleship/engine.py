@@ -59,7 +59,6 @@ class BattleshipGame:
             if status == ShipPlacementStatus.INVALID:
                 raise Exception("AI selection should not fail.")
             self.ai_strategy.update_placement_tracker(coord, Ship(ship_type), ornt)
-            print(len(self.ai_strategy.placement_tracker))
 
     def is_placement_complete(self) -> bool:
         pass
