@@ -1,13 +1,15 @@
+from abc import ABC, abstractmethod
 from typing import Dict
 
 from . import models
 
-class AIStrategy:
+class AIStrategy(ABC):
     board_size: int
 
     def __init__(self):
         raise NotImplementedError()
 
+    @abstractmethod
     def get_next_shot(
             self, 
             board_size: int, 
