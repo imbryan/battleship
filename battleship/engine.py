@@ -17,6 +17,7 @@ class BattleshipGame:
     def __init__(
             self,
             board_size: int,
+            players: Tuple[PlayerID],
             board_map: Dict[PlayerID, Board],
             ai_strategy: Optional[AIStrategy]):
         pass
