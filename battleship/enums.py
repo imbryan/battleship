@@ -1,4 +1,5 @@
 from enum import Enum
+import random
 
 
 class PlayerID(Enum):
@@ -14,6 +15,10 @@ class ShipPlacementStatus(Enum):
 class Orientation(Enum):
     HORIZONTAL = 'H'
     VERTICAL = 'V'
+
+    @classmethod
+    def random(cls):
+        return random.choice(list(cls))
 
 
 class ShipType(Enum):
