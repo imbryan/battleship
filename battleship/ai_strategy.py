@@ -1,31 +1,32 @@
 from abc import ABC, abstractmethod
 from typing import Dict
 
-from . import models, enums
+from .models import Coordinate, Ship
+from .enums import Orientation, ShotStatus
 
 
 class AIStrategy(ABC):
     board_size: int
-    placement_tracker: Dict[models.Coordinate, models.Ship]
-    shot_tracker: Dict[models.Coordinate, enums.ShotStatus]
+    placement_tracker: Dict[Coordinate, Ship]
+    shot_tracker: Dict[Coordinate, ShotStatus]
 
     def __init__(self):
         raise NotImplementedError()
 
     @abstractmethod
-    def get_next_placement(self) -> models.Coordinate:
+    def get_next_placement(self) -> Coordinate:
         raise NotImplementedError()
         
     @abstractmethod
-    def get_next_shot(self) -> models.Coordinate:
+    def get_next_shot(self) -> Coordinate:
         raise NotImplementedError()
     
     @abstractmethod
-    def update_placement_tracker(self, coord: models.Coordinate, status: enums.ShotStatus):
+    def update_placement_tracker(self, coord: Coordinate, status: ShotStatus):
         raise NotImplementedError()
 
     @abstractmethod
-    def update_shot_tracker(self, coord: models.Coordinate, ship: models.Ship, orientation: enums.Orientation):
+    def update_shot_tracker(self, start_coord: Coordinate, ship: Ship, orientation: Orientation):
         raise NotImplementedError()
 
 
@@ -35,22 +36,22 @@ class RandomStrategy(AIStrategy):
         self.placement_tracker = {}
         self.shot_tracker = {}
 
-    def get_next_placement(self) -> models.Coordinate:
-        random_coord = models.Coordinate.random(self.board_size)
+    def get_next_placement(self) -> Coordinate:
+        random_coord = Coordinate.random(self.board_size)
         while random_coord in self.placement_tracker:
-            random_coord = models.Coordinate.random(self.board_size)
+            random_coord = Coordinate.random(self.board_size)
         return random_coord
 
-    def get_next_shot(self) -> models.Coordinate:
-        random_coord = models.Coordinate.random(self.board_size)
+    def get_next_shot(self) -> Coordinate:
+        random_coord = Coordinate.random(self.board_size)
         while random_coord in self.shot_tracker:
-            random_coord = models.Coordinate.random(self.board_size)
+            random_coord = Coordinate.random(self.board_size)
         return random_coord
 
-    def update_shot_tracker(self, coord: models.Coordinate, status: enums.ShotStatus):
+    def update_shot_tracker(self, coord: Coordinate, status: ShotStatus):
         self.shot_tracker[coord] = status
 
-    def update_placement_tracker(self, coord: models.Coordinate, ship: models.Ship, orientation: enums.Orientation):
+    def update_placement_tracker(self, start_coord: Coordinate, ship: Ship, orientation: Orientation):
         for i in range(ship.size):
             if orientation == Orientation.HORIZONTAL:
                 coord = Coordinate(start_coord.row, start_coord.column + i)
