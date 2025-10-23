@@ -1,16 +1,16 @@
 from typing import Dict, List, Optional, Tuple
 
 from .ai_strategy import AIStrategy
-from .models import Coordinate, ShotStatus, ShipType, Board, PlayerID, Orientation
+from .enums import PlayerID, ShipPlacementStatus
+from .models import Coordinate, ShotStatus, ShipType, Board, Orientation
 
-class InvalidPlacementError(Exception):
-    pass
 
 
 class BattleshipGame:
     board_size: int
     board_map: Dict[PlayerID, Board]
     ai_strategy: Optional[AIStrategy]
+    players: Tuple[PlayerID]
     current_player: PlayerID
     ships_to_place: Dict[PlayerID, List[ShipType]]
 
@@ -30,7 +30,7 @@ class BattleshipGame:
             ship_type: ShipType,
             start_coord: Coordinate,
             orientation: Orientation
-    ):
+    ) -> ShipPlacementStatus:
         pass
 
     def is_placement_complete(self) -> bool:
@@ -43,7 +43,10 @@ class BattleshipGame:
     ) -> Tuple[ShotStatus, Optional[str]]:
         pass
 
-    def get_ai_shot_result(self) -> Tuple[Coordinate, ShotStatus, Optional[str]]:
+    def simulate_turn(self) -> Tuple[ShotStatus, Optional[str]]:
+        pass
+
+    def next_turn(self):
         pass
 
     def get_winner(self) -> Optional[PlayerID]:

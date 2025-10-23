@@ -1,0 +1,30 @@
+from enum import Enum
+
+
+class PlayerID(Enum):
+    HUMAN = 'human'
+    AI = 'ai'
+
+
+class ShipPlacementStatus(Enum):
+    SUCCESS = 0
+    INVALID = 1
+
+
+class Orientation(Enum):
+    HORIZONTAL = 'H'
+    VERTICAL = 'V'
+
+
+class ShipType(Enum):
+    CARRIER = 5
+    BATTLESHIP = 4
+    CRUISER = 3
+    SUBMARINE = 3
+    DESTROYER = 2
+
+
+class ShotStatus(Enum):
+    MISS = 'Miss'
+    HIT = 'Hit'
+    UNSHOT = 'Unshot'

@@ -2,7 +2,8 @@ from unittest import TestCase
 from unittest.mock import Mock
 
 from battleship.engine import BattleshipGame
-from battleship.models import PlayerID
+from battleship.enums import PlayerID
+
 
 class BattleshipGameTestCase(TestCase):
     def setUp(self):
@@ -34,7 +35,10 @@ class BattleshipGameTestCase(TestCase):
     def test_fire_shot(self):
         pass
 
-    def test_get_ai_shot_result(self):
+    def test_simulate_turn(self):
+        pass
+
+    def test_next_turn(self):
         pass
 
     def test_get_winner(self):

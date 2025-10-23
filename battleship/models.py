@@ -1,29 +1,6 @@
-from enum import Enum
 from typing import Dict, List, Optional, Tuple 
 
-
-class PlayerID(Enum):
-    HUMAN = 'human'
-    AI = 'ai'
-
-
-class Orientation(Enum):
-    HORIZONTAL = 'H'
-    VERTICAL = 'V'
-
-
-class ShipType(Enum):
-    CARRIER = 5
-    BATTLESHIP = 4
-    CRUISER = 3
-    SUBMARINE = 3
-    DESTROYER = 2
-
-
-class ShotStatus(Enum):
-    MISS = 'Miss'
-    HIT = 'Hit'
-    UNSHOT = 'Unshot'
+from .enums import Orientation, ShipType, ShotStatus
 
 
 class Coordinate:

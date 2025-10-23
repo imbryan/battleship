@@ -1,6 +1,7 @@
 from unittest import TestCase
 
-from battleship.models import Board, Coordinate, Orientation, Ship, ShipType, ShotStatus
+from battleship.enums import ShipType, ShotStatus
+from battleship.models import Board, Coordinate, Orientation, Ship
 
 class CoordinateTestCase(TestCase):
     def test_str(self):

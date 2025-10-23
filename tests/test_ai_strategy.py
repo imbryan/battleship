@@ -1,7 +1,8 @@
 from unittest import TestCase
 
 from battleship.ai_strategy import RandomStrategy
-from battleship.models import Board, ShotStatus
+from battleship.enums import ShotStatus
+from battleship.models import Board
 
 
 class RandomStrategyTestCase(TestCase):
@@ -10,10 +11,9 @@ class RandomStrategyTestCase(TestCase):
         self.strategy = RandomStrategy(board_size=self.board.size)
 
     def test_get_next_shot(self):
-        coord1 = self.strategy.get_next_shot(self.board.get_status_grid())
+        coord1 = self.strategy.get_next_shot()
         self.assertTrue(coord1.is_valid(self.board.size))
         self.assertTrue(self.board.get_status_at(coord1) == ShotStatus.UNSHOT)
-        coord2 = self.strategy.get_next_shot(self.board.get_status_grid())
+        coord2 = self.strategy.get_next_shot()
         self.assertTrue(coord2.is_valid(self.board.size))
         self.assertTrue(self.board.get_status_at(coord2) == ShotStatus.UNSHOT)
-    
