@@ -52,6 +52,20 @@ class BoardTestCase(TestCase):
     def setUp(self):
         self.board = Board(size=10)
 
+    def test_calc_ship_coords(self):
+        h_coords = Board.calculate_ship_coords(
+            ship_size=ShipType.DESTROYER.value,
+            start_coord=Coordinate(0, 0),
+            orientation=Orientation.HORIZONTAL,
+        )
+        v_coords = Board.calculate_ship_coords(
+            ship_size=ShipType.DESTROYER.value,
+            start_coord=Coordinate(0, 0),
+            orientation=Orientation.VERTICAL,
+        )
+        self.assertEqual(h_coords, [Coordinate(0, 0), Coordinate(0, 1)])
+        self.assertEqual(v_coords, [Coordinate(0, 0), Coordinate(1, 0)])
+
     def test_valid_placement(self):
         coord1 = Coordinate(0, 0)
         coord2 = Coordinate(9, 9)
