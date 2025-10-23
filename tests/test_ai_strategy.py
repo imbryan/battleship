@@ -11,5 +11,9 @@ class RandomStrategyTestCase(TestCase):
 
     def test_get_next_shot(self):
         coord1 = self.strategy.get_next_shot(self.board.get_status_grid())
-        self.assertTrue(coord1.is_valid())
+        self.assertTrue(coord1.is_valid(self.board.size))
         self.assertTrue(self.board.get_status_at(coord1) == ShotStatus.UNSHOT)
+        coord2 = self.strategy.get_next_shot(self.board.get_status_grid())
+        self.assertTrue(coord2.is_valid(self.board.size))
+        self.assertTrue(self.board.get_status_at(coord2) == ShotStatus.UNSHOT)
+    
