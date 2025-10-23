@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import Dict, Tuple
 
-from .models import Coordinate, Ship
-from .enums import Orientation, ShotStatus
+from .models import Coordinate, Ship, Board
+from .enums import Orientation, ShotStatus, ShipType
 
 
 class AIStrategy(ABC):
@@ -14,7 +14,7 @@ class AIStrategy(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def get_next_placement(self) -> Tuple[Coordinate, Orientation]:
+    def get_next_placement(self, ship_type: ShipType) -> Tuple[Coordinate, Orientation]:
         raise NotImplementedError()
         
     @abstractmethod
@@ -36,11 +36,15 @@ class RandomStrategy(AIStrategy):
         self.placement_tracker = {}
         self.shot_tracker = {}
 
-    def get_next_placement(self) -> Tuple[Coordinate, Orientation]:
+    def get_next_placement(self, ship_type: ShipType) -> Tuple[Coordinate, Orientation]:
+        random_ornt = Orientation.random()
         random_coord = Coordinate.random(self.board_size)
-        while random_coord in self.placement_tracker:
+        coords = Board.calculate_ship_coords(ship_type.value, random_coord, random_ornt)
+        while any(coord in self.placement_tracker for coord in coords):
+            random_ornt = Orientation.random()
             random_coord = Coordinate.random(self.board_size)
-        return random_coord, Orientation.random()
+            coords = Board.calculate_ship_coords(ship_type.value, random_coord, random_ornt)
+        return random_coord, random_ornt
 
     def get_next_shot(self) -> Coordinate:
         random_coord = Coordinate.random(self.board_size)
@@ -52,10 +56,6 @@ class RandomStrategy(AIStrategy):
         self.shot_tracker[coord] = status
 
     def update_placement_tracker(self, start_coord: Coordinate, ship: Ship, orientation: Orientation):
-        for i in range(ship.size):
-            if orientation == Orientation.HORIZONTAL:
-                coord = Coordinate(start_coord.row, start_coord.column + i)
-                self.placement_tracker[coord] = ship
-            else:  # VERTICAL
-                coord = Coordinate(start_coord.row + i, start_coord.column)
-                self.placement_tracker[coord] = ship
+        coords = Board.calculate_ship_coords(ship.size, start_coord, orientation)
+        for coord in coords:
+            self.placement_tracker[coord] = ship

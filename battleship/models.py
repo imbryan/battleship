@@ -71,32 +71,28 @@ class Board:
         self.ships = []
         self.ship_map = {}
         self.shots_received = {}
-
-    def is_valid_placement(self, ship_size: int, start_coord: Coordinate, orientation: Orientation) -> bool:
-        if orientation == orientation.HORIZONTAL:
-            end_coord = Coordinate(start_coord.row, start_coord.column + ship_size - 1)
-        else:  # VERTICAL
-            end_coord = Coordinate(start_coord.row + ship_size - 1, start_coord.column)
-        if end_coord.is_valid(self.size) is False:
-            return False
+    
+    @staticmethod
+    def calculate_ship_coords(ship_size: int, start_coord: Coordinate, orientation: Orientation) -> List[Coordinate]:    
+        coords = []
         for i in range(ship_size):
             if orientation == Orientation.HORIZONTAL:
-                coord = Coordinate(start_coord.row, start_coord.column + i)
-            else:  # VERTICAL
-                coord = Coordinate(start_coord.row + i, start_coord.column)
-            if coord in self.ship_map:
+                coords.append(Coordinate(start_coord.row, start_coord.column + i))
+            else:
+                coords.append(Coordinate(start_coord.row + i, start_coord.column))
+        return coords
+
+    def is_valid_placement(self, ship_size: int, start_coord: Coordinate, orientation: Orientation) -> bool:
+        coords = Board.calculate_ship_coords(ship_size, start_coord, orientation)
+        for coord in coords:
+            if coord in self.ship_map or coord.is_valid(self.size) is False:
                 return False
         return True
 
-
     def place_ship(self, ship: Ship, start_coord: Coordinate, orientation: Orientation):
-        for i in range(ship.size):
-            if orientation == Orientation.HORIZONTAL:
-                coord = Coordinate(start_coord.row, start_coord.column + i)
-                self.ship_map[coord] = ship
-            else:  # VERTICAL
-                coord = Coordinate(start_coord.row + i, start_coord.column)
-                self.ship_map[coord] = ship
+        coords = Board.calculate_ship_coords(ship.size, start_coord, orientation)
+        for coord in coords:           
+            self.ship_map[coord] = ship
         self.ships.append(ship)
 
     def get_status_at(self, coord: Coordinate) -> ShotStatus:
