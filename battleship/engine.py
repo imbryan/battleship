@@ -33,6 +33,9 @@ class BattleshipGame:
     ) -> ShipPlacementStatus:
         pass
 
+    def simulate_placement(self):
+        pass
+
     def is_placement_complete(self) -> bool:
         pass
 

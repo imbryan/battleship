@@ -28,3 +28,5 @@ class ShotStatus(Enum):
     MISS = 'Miss'
     HIT = 'Hit'
     UNSHOT = 'Unshot'
+    ALREADY_SHOT = 'Already_Shot'
+    INVALID = 'Invalid'

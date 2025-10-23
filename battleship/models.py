@@ -1,4 +1,5 @@
-from typing import Dict, List, Optional, Tuple 
+import random
+from typing import Dict, List, Optional, Tuple
 
 from .enums import Orientation, ShipType, ShotStatus
 
@@ -10,6 +11,13 @@ class Coordinate:
     def __init__(self, row: int, column: int):
         self.row = row
         self.column = column
+
+    @staticmethod
+    def random(board_size: int):
+        return Coordinate(
+            row=random.randint(0, board_size-1),
+            column=random.randint(0, board_size-1),
+        )
 
     def __str__(self) -> str:
         """String representation of the Coordinate."""
