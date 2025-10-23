@@ -21,6 +21,7 @@ class BattleshipGameTestCase(TestCase):
         self.mock_ai_strategy = Mock()
 
         self.engine = BattleshipGame(
+            players=(self.player1, self.player2),
             board_size=self.board_size,
             board_map=self.mock_board_map,
             ai_strategy=self.mock_ai_strategy,
