@@ -3,6 +3,11 @@ from typing import Dict
 from . import models
 
 class AIStrategy:
+    board_size: int
+
+    def __init__(self):
+        raise NotImplementedError()
+
     def get_next_shot(
             self, 
             board_size: int, 
@@ -12,9 +17,11 @@ class AIStrategy:
 
 
 class RandomStrategy(AIStrategy):
+    def __init__(self, board_size):
+        pass
+
     def get_next_shot(
-            self, 
-            board_size: int, 
+            self,
             grid: Dict[models.Coordinate, models.ShotStatus]
     ) -> models.Coordinate:
         pass
