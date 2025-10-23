@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Dict
+from typing import Dict, Tuple
 
 from .models import Coordinate, Ship
 from .enums import Orientation, ShotStatus
@@ -14,7 +14,7 @@ class AIStrategy(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def get_next_placement(self) -> Coordinate:
+    def get_next_placement(self) -> Tuple[Coordinate, Orientation]:
         raise NotImplementedError()
         
     @abstractmethod
@@ -36,11 +36,11 @@ class RandomStrategy(AIStrategy):
         self.placement_tracker = {}
         self.shot_tracker = {}
 
-    def get_next_placement(self) -> Coordinate:
+    def get_next_placement(self) -> Tuple[Coordinate, Orientation]:
         random_coord = Coordinate.random(self.board_size)
         while random_coord in self.placement_tracker:
             random_coord = Coordinate.random(self.board_size)
-        return random_coord
+        return random_coord, Orientation.random()
 
     def get_next_shot(self) -> Coordinate:
         random_coord = Coordinate.random(self.board_size)
