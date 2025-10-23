@@ -1,3 +1,5 @@
+from aenum import Enum as AEnum, NoAlias
+
 from enum import Enum
 import random
 
@@ -21,12 +23,18 @@ class Orientation(Enum):
         return random.choice(list(cls))
 
 
-class ShipType(Enum):
+class ShipType(AEnum):
+    _settings_ = NoAlias
+
     CARRIER = 5
     BATTLESHIP = 4
     CRUISER = 3
     SUBMARINE = 3
     DESTROYER = 2
+
+    @classmethod
+    def total_size(cls):
+        return sum(mem.value for mem in cls)
 
 
 class ShotStatus(Enum):
