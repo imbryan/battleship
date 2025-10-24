@@ -87,7 +87,9 @@ class BattleshipGameTestCase(TestCase):
         self.assertEqual(result3[0], ShotStatus.MISS)
 
     def test_simulate_turn(self):
-        pass
+        self.mock_ai_strategy.get_next_shot.return_value = Coordinate.random(self.board_size)
+        self.engine.simulate_turn()
+        self.assertEqual(self.mock_ai_strategy.update_shot_tracker.call_count, 1, "AI should have taken a shot and tracked it")
 
     def test_next_turn(self):
         self.engine.current_player = self.player_ai
