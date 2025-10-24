@@ -69,3 +69,7 @@ class BattleshipGame:
     
     def get_board_size(self) -> int:
         return self.board_size
+    
+    def get_board(self, player: PlayerID) -> Board:
+        return self.board_map[player]
+
