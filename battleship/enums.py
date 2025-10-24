@@ -5,8 +5,8 @@ import random
 
 
 class PlayerID(Enum):
-    HUMAN = 'human'
-    AI = 'ai'
+    HUMAN = 'Human'
+    AI = 'AI'
 
 
 class ShipPlacementStatus(Enum):

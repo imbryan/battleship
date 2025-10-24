@@ -55,3 +55,17 @@ class BattleshipGame:
 
     def get_winner(self) -> Optional[PlayerID]:
         pass
+
+    def get_attacker(self) -> PlayerID:
+        return self.current_player
+    
+    def get_defender(self) -> PlayerID:
+        for player in self.players:
+            if player != self.current_player:
+                return player
+
+    def get_ships_to_place(self, player: PlayerID) -> List[ShipType]:
+        return self.ships_to_place.get(player)
+    
+    def get_board_size(self) -> int:
+        return self.board_size

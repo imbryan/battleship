@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import List, Tuple
 
 from .models import Board, Coordinate, Orientation, ShipType
 
@@ -21,5 +21,5 @@ def read_board_size() -> int:
 def read_coord(board_size: int) -> Coordinate:
     pass
 
-def read_ship_placement(board_size: int, ship_type: ShipType) -> Tuple[Coordinate, Orientation]:
+def read_ship_placement(board_size: int, ship_types: List[ShipType]) -> Tuple[ShipType, Coordinate, Orientation]:
     pass
